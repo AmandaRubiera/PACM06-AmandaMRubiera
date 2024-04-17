@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="biblioteca.Prestamo" table="prestamo">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <property name="fechaPrestamo" type="java.time.LocalDate">
+            <column name="fecha_prestamo" />
+        </property>
+        <property name="fechaDevolucion" type="java.time.LocalDate">
+            <column name="fecha_devolucion" />
+        </property>
+        <property name="idLibro" type="java.lang.Long">
+            <column name="id_libro" />
+        </property>
+        <property name="idUsuarioLector" type="java.lang.Long">
+            <column name="id_usuario_lector" />
+        </property>
+    </class>
+</hibernate-mapping>
