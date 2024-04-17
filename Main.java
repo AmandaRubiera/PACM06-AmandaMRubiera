@@ -29,16 +29,18 @@ public class Main {
 			System.out.println("\nBiblioteca:");
 			System.out.println("1- Añadir un libro");
 			System.out.println("2- Añadir un lector");
-			System.out.println("3- Listado de libros");
-			System.out.println("4- Listado de lectores");
-			System.out.println("5- Ver libro por ID");
-			System.out.println("6- Ver lector por ID");
-			System.out.println("7- Libros actualmente prestados a un lector");
-			System.out.println("8- Libros disponibles para préstamos");
-			System.out.println("9- Historial de préstamos por lector");
-			System.out.println("10- Insertar un préstamo");
-			System.out.println("11- Insertar una devolución");
-			System.out.println("12- Salir");
+			System.out.println("3- Eliminar un libro");
+			System.out.println("4- Eliminar un lector");
+			System.out.println("5- Listado de libros");
+			System.out.println("6- Listado de lectores");
+			System.out.println("7- Ver libro por ID");
+			System.out.println("8- Ver lector por ID");
+			System.out.println("9- Libros actualmente prestados a un lector");
+			System.out.println("10- Libros disponibles para préstamos");
+			System.out.println("11- Historial de préstamos por lector");
+			System.out.println("12- Insertar un préstamo");
+			System.out.println("13- Insertar una devolución");
+			System.out.println("14- Salir");
 			System.out.print("Seleccione una opción: ");
 			opcion = scanner.nextInt();
 			scanner.nextLine();
@@ -101,6 +103,40 @@ public class Main {
 				break;
 
 			case 3:
+				System.out.println("Eliminar libro:");
+				System.out.print("Ingrese el ID del libro que desea eliminar: ");
+				long idLibroEliminar = scanner.nextLong();
+				scanner.nextLine();
+
+				// Obtener el libro por ID
+				Libro libroAEliminar = CrudLibro.obtenerLibroPorId(idLibroEliminar);
+
+				if (libroAEliminar != null) {
+					// Mostrar detalles del libro a eliminar
+					System.out.println("Detalles del libro a eliminar:");
+					System.out.println("ID: " + libroAEliminar.getId());
+					System.out.println("Título: " + libroAEliminar.getTitulo());
+					System.out.println("Autor: " + libroAEliminar.getAutor());
+					System.out.println("Año de Publicación: " + libroAEliminar.getAñoPublicacion());
+					System.out.println();
+
+					// Confirmación para eliminar el libro
+					System.out.print("¿Está seguro que desea eliminar este libro? (s/n): ");
+					String confirmacion = scanner.nextLine();
+
+					if (confirmacion.equalsIgnoreCase("s")) {
+						// Eliminar el libro
+						CrudLibro.eliminarLibro(libroAEliminar);
+						System.out.println("El libro ha sido eliminado correctamente.");
+					} else {
+						System.out.println("Operación de eliminación cancelada.");
+					}
+				} else {
+					System.out.println("El libro con ID " + idLibroEliminar + " no existe.");
+				}
+				break;
+
+			case 5:
 				System.out.println("Listado de libros disponibles:");
 				// Lista de libros disponibles
 				List<Libro> librosDisponibles = CrudLibro.obtenerLibrosDisponibles();
@@ -119,7 +155,7 @@ public class Main {
 				}
 				break;
 
-			case 4:
+			case 6:
 				System.out.println("Listado de usuarios lectores:");
 				// Listado de lectores
 				List<UsuarioLector> lectores = lectoresCrud.obtenerTodosLosLectores();
@@ -139,7 +175,7 @@ public class Main {
 				}
 				break;
 
-			case 5:
+			case 7:
 				// ver un libro por ID
 				System.out.print("Ingrese el ID del libro a consultar: ");
 				long idLibro = scanner.nextLong();
@@ -159,7 +195,7 @@ public class Main {
 				}
 				break;
 
-			case 6:
+			case 8:
 				// Ver un lector por ID
 				System.out.print("Ingrese el ID del lector a consultar: ");
 				long idLector = scanner.nextLong();
@@ -179,7 +215,7 @@ public class Main {
 				}
 				break;
 
-			case 7:
+			case 9:
 				// Libros actualmente prestados a un lector
 				System.out.println("Libros actualmente prestados a un lector:");
 				System.out.print("Ingrese el ID del lector: ");
@@ -201,7 +237,7 @@ public class Main {
 				}
 				break;
 
-			case 8:
+			case 10:
 				// Libros disponibles para préstamos
 				System.out.println("Libros disponibles para préstamos:");
 				List<Libro> librosDisponibles2 = CrudLibro.obtenerLibrosDisponibles();
@@ -215,7 +251,7 @@ public class Main {
 				}
 				break;
 
-			case 9:
+			case 11:
 				// Historial de préstamos por lector
 				System.out.println("Historial de préstamos por lector:");
 				System.out.print("Ingrese el ID del lector: ");
@@ -235,104 +271,102 @@ public class Main {
 					}
 				}
 				break;
-					
-			case 10:
-			    // Insertar un préstamo
-			    System.out.println("Asignar un libro a un lector:");
-			    System.out.print("Ingrese el ID del lector: ");
-			    long idLectorPrestamo = scanner.nextLong();
-			    scanner.nextLine();
 
-			    System.out.print("Ingrese el ID del libro: ");
-			    long idLibroPrestamo = scanner.nextLong();
-			    scanner.nextLine();
-
-			    // Obtener el lector y el libro por sus respectivos IDs
-			    UsuarioLector lectorPrestamo = lectoresCrud.obtenerLectorPorId(idLectorPrestamo);
-			    Libro libroPrestamo = CrudLibro.obtenerLibroPorId(idLibroPrestamo);
-
-			    if (lectorPrestamo != null && libroPrestamo != null && libroPrestamo.isDisponible()) {
-			        // Asignar el préstamo
-			        Prestamo prestamo = new Prestamo();
-			        prestamo.setFechaPrestamo(LocalDate.now());
-			        prestamo.setIdLibro(idLibroPrestamo);
-			        prestamo.setIdUsuarioLector(idLectorPrestamo);
-
-			        Transaction txPrestamo = session.beginTransaction();
-			        crudPrestamo.agregarPrestamo(prestamo);
-			        txPrestamo.commit();
-
-			        // Actualizar la disponibilidad del libro
-			        libroPrestamo.setDisponible(false);
-			        Transaction txLibroPrestamo = session.beginTransaction();
-			        CrudLibro.actualizarLibro(libroPrestamo);
-			        txLibroPrestamo.commit();
-
-			        System.out.println("Libro asignado al lector correctamente.");
-			    } else {
-			        System.out.println("No se puede asignar el libro al lector. Verifique los IDs proporcionados o la disponibilidad del libro.");
-			    }
-			    break;
-			case 11:
-				 // Agregar una devolución
-			    System.out.println("Registrar la devolución de un libro:");
-			    System.out.print("Ingrese el ID del lector que devuelve el libro: ");
-			    long idLectorDevolucion = scanner.nextLong();
-			    scanner.nextLine();
-
-			    // Obtener los préstamos activos del lector
-			    List<Prestamo> prestamosActivos = crudPrestamo.obtenerPrestamosNoDevueltosPorLector(idLectorDevolucion);
-
-			    if (!prestamosActivos.isEmpty()) {
-			        System.out.println("Préstamos activos del lector:");
-			        for (Prestamo prestamo : prestamosActivos) {
-			            Libro libroPrestado = CrudLibro.obtenerLibroPorId(prestamo.getIdLibro());
-			            System.out.println("ID del préstamo: " + prestamo.getId());
-			            System.out.println("Título del libro: " + libroPrestado.getTitulo());
-			        }
-
-			        System.out.print("Ingrese el ID del préstamo que desea devolver: ");
-			        long idPrestamoDevolucion = scanner.nextLong();
-			        scanner.nextLine();
-
-			        // Obtener el préstamo por su ID
-			        Prestamo prestamoDevolucion = crudPrestamo.obtenerPrestamoPorId(idPrestamoDevolucion);
-
-			        if (prestamoDevolucion != null && prestamoDevolucion.getIdUsuarioLector() == idLectorDevolucion) {
-			            // Asignar la fecha de devolución
-			            prestamoDevolucion.setFechaDevolucion(LocalDate.now());
-			            Transaction txDevolucion = session.beginTransaction();
-			            crudPrestamo.actualizarPrestamo(prestamoDevolucion);
-			            txDevolucion.commit();
-
-			            // Actualizar la disponibilidad del libro
-			            Libro libroDevolucion = CrudLibro.obtenerLibroPorId(prestamoDevolucion.getIdLibro());
-			            libroDevolucion.setDisponible(true);
-			            Transaction txLibroDevolucion = session.beginTransaction();
-			            CrudLibro.actualizarLibro(libroDevolucion);
-			            txLibroDevolucion.commit();
-
-			            System.out.println("Devolución registrada correctamente.");
-			        } else {
-			            System.out.println("No se puede encontrar el préstamo proporcionado o no pertenece al lector especificado.");
-			        }
-			    } else {
-			        System.out.println("El lector no tiene préstamos activos.");
-			    }
-			    break;
-				
 			case 12:
-				System.out.println("Saliendo del programa...");
+				// Insertar un préstamo
+				System.out.println("Asignar un libro a un lector:");
+				System.out.print("Ingrese el ID del lector: ");
+				long idLectorPrestamo = scanner.nextLong();
+				scanner.nextLine();
+
+				System.out.print("Ingrese el ID del libro: ");
+				long idLibroPrestamo = scanner.nextLong();
+				scanner.nextLine();
+
+				// Obtener el lector y el libro por sus respectivos IDs
+				UsuarioLector lectorPrestamo = lectoresCrud.obtenerLectorPorId(idLectorPrestamo);
+				Libro libroPrestamo = CrudLibro.obtenerLibroPorId(idLibroPrestamo);
+
+				if (lectorPrestamo != null && libroPrestamo != null && libroPrestamo.isDisponible()) {
+					// Asignar el préstamo
+					Prestamo prestamo = new Prestamo();
+					prestamo.setFechaPrestamo(LocalDate.now());
+					prestamo.setIdLibro(idLibroPrestamo);
+					prestamo.setIdUsuarioLector(idLectorPrestamo);
+
+					Transaction txPrestamo = session.beginTransaction();
+					crudPrestamo.agregarPrestamo(prestamo);
+					txPrestamo.commit();
+
+					// Actualizar la disponibilidad del libro
+					libroPrestamo.setDisponible(false);
+					Transaction txLibroPrestamo = session.beginTransaction();
+					CrudLibro.actualizarLibro(libroPrestamo);
+					txLibroPrestamo.commit();
+
+					System.out.println("Libro asignado al lector correctamente.");
+				} else {
+					System.out.println(
+							"No se puede asignar el libro al lector. Verifique los IDs proporcionados o la disponibilidad del libro.");
+				}
 				break;
+			case 13:
+				// Agregar una devolución
+				System.out.println("Registrar la devolución de un libro:");
+				System.out.print("Ingrese el ID del lector que devuelve el libro: ");
+				long idLectorDevolucion = scanner.nextLong();
+				scanner.nextLine();
+
+				// Obtener los préstamos activos del lector
+				List<Prestamo> prestamosActivos = crudPrestamo.obtenerPrestamosNoDevueltosPorLector(idLectorDevolucion);
+
+				if (!prestamosActivos.isEmpty()) {
+					System.out.println("Préstamos activos del lector:");
+					for (Prestamo prestamo : prestamosActivos) {
+						Libro libroPrestado = CrudLibro.obtenerLibroPorId(prestamo.getIdLibro());
+						System.out.println("ID del préstamo: " + prestamo.getId());
+						System.out.println("Título del libro: " + libroPrestado.getTitulo());
+					}
+
+					System.out.print("Ingrese el ID del préstamo que desea devolver: ");
+					long idPrestamoDevolucion = scanner.nextLong();
+					scanner.nextLine();
+
+					// Obtener el préstamo por su ID
+					Prestamo prestamoDevolucion = crudPrestamo.obtenerPrestamoPorId(idPrestamoDevolucion);
+
+					if (prestamoDevolucion != null && prestamoDevolucion.getIdUsuarioLector() == idLectorDevolucion) {
+						// Asignar la fecha de devolución
+						prestamoDevolucion.setFechaDevolucion(LocalDate.now());
+						Transaction txDevolucion = session.beginTransaction();
+						crudPrestamo.actualizarPrestamo(prestamoDevolucion);
+						txDevolucion.commit();
+
+						// Actualizar la disponibilidad del libro
+						Libro libroDevolucion = CrudLibro.obtenerLibroPorId(prestamoDevolucion.getIdLibro());
+						libroDevolucion.setDisponible(true);
+						Transaction txLibroDevolucion = session.beginTransaction();
+						CrudLibro.actualizarLibro(libroDevolucion);
+						txLibroDevolucion.commit();
+
+						System.out.println("Devolución registrada correctamente.");
+					} else {
+						System.out.println(
+								"No se puede encontrar el préstamo proporcionado o no pertenece al lector especificado.");
+					}
+				} else {
+					System.out.println("El lector no tiene préstamos activos.");
+				}
+				break;
+
 			default:
 				System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
 			}
-		} while (opcion != 13);
+		} while (opcion != 12);
 
-		scanner.close();
 		session.close();
 		sessionFactory.close();
-
+		scanner.close();
 	}
 
 }
