@@ -1,5 +1,5 @@
 # PacDesarrolloAcceso
-Pac de desarrollo de la asignatura Acceso a datos (Biblioteca) de Amanda Maximina Rubiera Fernández
+Pac de desarrollo de la asignatura acceso a datos (Biblioteca) de Amanda Maximina Rubiera Fernández 
 
 Este proyecto se corresponde a un sistema de gestión de biblioteca desarrollado en Java con el entorno de desarrollo de Eclipse utilizando Hibernate como framework de mapeo objeto-relacional para la persistencia de datos en una base de datos MySQL.
 
@@ -38,10 +38,10 @@ Una clase que representa la entidad UsuarioLector, con atributos como nombre, ap
 Una clase que representa la entidad Prestamo, con atributos como fecha de préstamo, fecha de devolución, ID del libro y ID del lector.
 
 
-Configuración de Hibernate
+- Configuración de Hibernate
 El archivo hibernate.cfg.xml contiene la configuración de Hibernate, incluyendo la URL de la base de datos, el usuario y la contraseña, así como los mapeos de clases a tablas.
 
-Mapeos de Hibernate
+- Mapeos de Hibernate
 Se proporcionan archivos XML de mapeo de Hibernate para las clases Libro, UsuarioLector y Prestamo, que establecen la correspondencia entre las propiedades de las clases y las columnas de las tablas en la base de datos.
 
 Dentro del archivo hibernate.cfg.xml, se especifican los archivos de mapeo de Hibernate (.hbm.xml) que mapean las clases de entidad de Java a las tablas de la base de datos. 
